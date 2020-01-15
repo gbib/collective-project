@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="app" uuid="c7cd9f2b-febd-4221-8fde-db724adb5044">
+    <data-source source="LOCAL" name="SQLite - app.db" uuid="5d07d99e-baa3-4db7-92c5-f3f8cedb54ac">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:M:\FullStack\FlaskTutorial\app.db</jdbc-url>
-    </data-source>
-    <data-source source="LOCAL" name="app [2]" uuid="d6964c4b-e541-4fe4-bbd0-0fc6737e0729">
-      <driver-ref>sqlite.xerial</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Sourcetree\Collective-proj\app.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/app.db</jdbc-url>
       <driver-properties>
         <property name="enable_load_extension" value="true" />
       </driver-properties>

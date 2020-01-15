@@ -6,7 +6,7 @@ from flask_babel import _, get_locale
 from guess_language import guess_language
 from app import db
 from app.main.forms import EditProfileForm, PostForm
-from app.models import User, BloodRequest
+from app.models import User, BloodRequest, BloodGroup
 from app.translate import translate
 from app.main import bp
 
@@ -66,7 +66,7 @@ def explore():
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     page = request.args.get('page', 1, type=int)
-    posts = user.posts.order_by(BloodRequest.timestamp.desc()).paginate(
+    posts = user.blood_requests.order_by(BloodRequest.timestamp.desc()).paginate(
         page, current_app.config['POSTS_PER_PAGE'], False)
     next_url = url_for('main.user', username=user.username,
                        page=posts.next_num) if posts.has_next else None
@@ -83,12 +83,23 @@ def edit_profile():
     if form.validate_on_submit():
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
+        current_user.national_id = form.national_id.data
+        current_user.diseases = form.diseases.data
+        current_user.phone_number = form.phone_number.data
+        current_user.blood_group_id = int(form.blood_group.data)
+        current_user.profile_setup = True
         db.session.commit()
         flash(_('Your changes have been saved.'))
         return redirect(url_for('main.edit_profile'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
+        form.national_id.data = current_user.national_id
+        form.diseases.data = current_user.diseases
+        form.phone_number.data = current_user.phone_number
+
+        form.blood_group.default = current_user.blood_group_id
+        # TODO update edit fileds after an edit
     return render_template('edit_profile.html', title=_('Edit Profile'),
                            form=form)
 
@@ -131,6 +142,7 @@ def translate_text():
     return jsonify({'text': translate(request.form['text'],
                                       request.form['source_language'],
                                       request.form['dest_language'])})
+
 
 @bp.route('/user/<username>/popup')
 @login_required

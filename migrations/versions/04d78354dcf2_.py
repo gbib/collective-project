@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 74df43bf4440
+Revision ID: 04d78354dcf2
 Revises: 
-Create Date: 2020-01-15 20:36:40.404521
+Create Date: 2020-01-15 20:50:35.881081
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '74df43bf4440'
+revision = '04d78354dcf2'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -56,6 +56,14 @@ def upgrade():
     sa.Column('password_hash', sa.String(length=128), nullable=True),
     sa.Column('about_me', sa.String(length=140), nullable=True),
     sa.Column('last_seen', sa.DateTime(), nullable=True),
+    sa.Column('phone_number', sa.String(length=20), nullable=True),
+    sa.Column('blood_group_id', sa.Integer(), nullable=True),
+    sa.Column('national_id', sa.String(length=20), nullable=True),
+    sa.Column('last_donation_id', sa.Integer(), nullable=True),
+    sa.Column('diseases', sa.String(length=1024), nullable=True),
+    sa.Column('profile_setup', sa.Boolean(), nullable=True),
+    sa.ForeignKeyConstraint(['blood_group_id'], ['blood_group.id'], use_alter=True),
+    sa.ForeignKeyConstraint(['last_donation_id'], ['donation.id'], use_alter=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_user_email'), 'user', ['email'], unique=True)
